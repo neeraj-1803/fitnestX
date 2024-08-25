@@ -61,6 +61,7 @@ dependencies:
   internet_connection_checker_plus: ^2.5.1
   connectivity_plus: ^6.0.5
   image_downloader: ^0.31.0
+  filter_list: ^1.0.3
 
 dev_dependencies:
   flutter_test:

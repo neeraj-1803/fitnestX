@@ -59,6 +59,9 @@ class _LandingPageState extends State<LandingPage> {
         ),
       );
       final List<dynamic> dataList = jsonDecode(response.toString());
+      url == exerciseBodyPart
+          ? dataList[0]["isEquipment"] = false
+          : dataList[0]["isEquipment"] = true;
       if (context.mounted) {
         Navigator.of(context).pushNamed("/exercisepage", arguments: dataList);
       }
