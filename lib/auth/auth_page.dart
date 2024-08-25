@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitnestx_flutter/dashboard/SavedPage.dart';
 import 'package:fitnestx_flutter/onboarding/landing.dart';
 import 'package:fitnestx_flutter/registration/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
-import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -19,15 +19,14 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   List<ConnectivityResult> _connectionStatus = [ConnectivityResult.none];
   final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
+  late StreamSubscription<List<ConnectivityResult>> connectivitySubscription;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initConnectivity();
 
-    _connectivitySubscription =
+    connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
 
@@ -64,7 +63,6 @@ class _AuthPageState extends State<AuthPage> {
       body: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          print(_connectionStatus);
           if (snapshot.hasData &&
               snapshot.connectionState == ConnectionState.active) {
             var box = Hive.box('exercisedb');
@@ -74,7 +72,12 @@ class _AuthPageState extends State<AuthPage> {
             }
             return const WelcomePage();
           }
-          return const Landing();
+          print(_connectionStatus);
+          if (_connectionStatus.contains(ConnectivityResult.none)) {
+            return const Savedpage();
+          } else {
+            return const Landing();
+          }
         },
       ),
     );

@@ -24,6 +24,10 @@
     <true/>
     <key>CFBundleVersion</key>
     <string>$(FLUTTER_BUILD_NUMBER)</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>to download gif</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>to download gif image</string>
     <!-- Google Sign in -->
     <key>CFBundleURLTypes</key>
     <array>

@@ -32,6 +32,7 @@ class _ExercisePageState extends State<ExercisePage> {
           routes[index]["trailingStar"] = Icons.star_border_rounded;
           return Exercise(
             routes: routes[index],
+            savedFlow: false,
           );
         },
       ),

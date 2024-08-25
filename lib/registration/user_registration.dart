@@ -39,6 +39,7 @@ class _UserRegistrationState extends State<UserRegistration> {
   final int pwdLen = 3;
   final formKey = GlobalKey<FormState>();
   bool isChecked = false;
+  var box = Hive.box('exercisedb');
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +66,12 @@ class _UserRegistrationState extends State<UserRegistration> {
         if (widget.isBack) {
           await FirebaseAuth.instance.signInWithEmailAndPassword(
               email: emailController.text, password: pwdController.text);
+          if (box.get('username') == null) {
+            await box.put('username', emailController.text);
+          } else if (box.get('username') != emailController.text) {
+            await box.clear();
+            await box.put('username', emailController.text);
+          }
         } else if (!widget.isBack && isChecked) {
           UserCredential userReg = await FirebaseAuth.instance
               .createUserWithEmailAndPassword(
@@ -74,6 +81,7 @@ class _UserRegistrationState extends State<UserRegistration> {
             'name': "${firstNameController.text} ${lastNameController.text}",
           };
           createUserDocument(userReg, obj);
+          await box.put('username', emailController.text);
           // createUserDocument(userReg); //to store the user data
         }
         clearFields();
@@ -319,7 +327,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                         GestureDetector(
                           onTap: () async {
                             showLoading();
-                            var box = Hive.box('exercisedb');
+
                             UserCredential userReg =
                                 await AuthService().signInWithGoogle();
                             var email = userReg.additionalUserInfo!.profile!
@@ -338,7 +346,9 @@ class _UserRegistrationState extends State<UserRegistration> {
                               await createUserDocument(userReg, obj);
                               box.put('username', email);
                             } else {
-                              if (box.get('username') != email) {
+                              if (box.get('username') == null) {
+                                await box.put('username', email);
+                              } else if (box.get('username') != email) {
                                 await box.clear();
                                 await box.put('username', email);
                               }

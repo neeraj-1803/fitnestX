@@ -1,18 +1,23 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:io';
+
 import 'package:basics/string_basics.dart';
 import 'package:fitnestx_flutter/helper/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive/hive.dart';
+import 'package:image_downloader/image_downloader.dart';
 
 class Exercise extends StatefulWidget {
   var routes;
+  bool savedFlow;
   // final void Function()? setData;
   Exercise({
     super.key,
     required this.routes,
+    required this.savedFlow,
   });
 
   @override
@@ -22,10 +27,27 @@ class Exercise extends StatefulWidget {
 class _ExerciseState extends State<Exercise> {
   bool _isExpanded = false;
   var box = Hive.box('exercisedb');
+  String imgPath = "";
+  Future<void> getFileName() async {
+    //var fileName = await ImageDownloader.findName(widget.routes["imageId"]);
+    String? path = await ImageDownloader.findPath(widget.routes["imageId"]);
+    setState(() {
+      imgPath = path.toString();
+    });
+  }
+
+  @override
+  void initState() {
+    if (widget.savedFlow) {
+      getFileName();
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final List instruction = widget.routes["instructions"];
+    final List instruction =
+        widget.routes != null ? widget.routes["instructions"] : [];
 
     updateToDb() async {
       Map<String, dynamic> data = {...widget.routes};
@@ -38,8 +60,12 @@ class _ExerciseState extends State<Exercise> {
         }
       }
       if (box.length == 0 && !del) {
+        data["imageId"] =
+            await ImageDownloader.downloadImage(widget.routes["gifUrl"]);
         await box.add(data);
       } else if (!del) {
+        data["imageId"] =
+            await ImageDownloader.downloadImage(widget.routes["gifUrl"]);
         await box.add(data);
       }
     }
@@ -66,11 +92,17 @@ class _ExerciseState extends State<Exercise> {
         ),
         leading: Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: Image.network(
-            widget.routes["gifUrl"],
-            height: 60,
-            width: 70,
-          ),
+          child: widget.savedFlow
+              ? Image.file(
+                  File(imgPath),
+                  height: 60,
+                  width: 70,
+                )
+              : Image.network(
+                  widget.routes["gifUrl"],
+                  height: 60,
+                  width: 70,
+                ),
         ),
         trailing: Padding(
           padding: const EdgeInsets.only(right: 10),
@@ -110,7 +142,9 @@ class _ExerciseState extends State<Exercise> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.network(widget.routes["gifUrl"]),
+              widget.savedFlow
+                  ? Image.file(File(imgPath))
+                  : Image.network(widget.routes["gifUrl"]),
               ExpansionTile(
                 tilePadding: const EdgeInsets.all(0),
                 collapsedShape: const RoundedRectangleBorder(

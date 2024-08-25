@@ -14,7 +14,6 @@ class _SavedpageState extends State<Savedpage> {
   var box = Hive.box('exercisedb');
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -36,9 +35,14 @@ class _SavedpageState extends State<Savedpage> {
               primary: false,
               itemCount: box.length,
               itemBuilder: (context, index) {
-                return Exercise(
-                  routes: box.get(index),
-                );
+                if (box.get(index) == null) {
+                  return null;
+                } else {
+                  return Exercise(
+                    routes: box.get(index),
+                    savedFlow: true,
+                  );
+                }
               },
             ),
     );
