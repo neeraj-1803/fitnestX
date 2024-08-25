@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>70894987259-4t93rg8c4ims4nl2ia4pemr8rj7onfp3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.70894987259-4t93rg8c4ims4nl2ia4pemr8rj7onfp3</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBBF_18KsrW78P8fB5URtL9WCQlXdZJDmA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>70894987259</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.fitnestxFlutter</string>
+	<key>PROJECT_ID</key>
+	<string>fitnest-x</string>
+	<key>STORAGE_BUCKET</key>
+	<string>fitnest-x.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:70894987259:ios:d1fed256b0f6eaaa06cd5e</string>
+</dict>
+</plist>
