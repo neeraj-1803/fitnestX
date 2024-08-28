@@ -7,13 +7,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitnestx_flutter/auth/auth_service.dart';
 import 'package:fitnestx_flutter/auth/crud_firebase.dart';
 import 'package:fitnestx_flutter/components/button.dart';
+import 'package:fitnestx_flutter/components/list.dart';
 import 'package:fitnestx_flutter/components/my_tile.dart';
 import 'package:fitnestx_flutter/components/textbox.dart';
 import 'package:fitnestx_flutter/helper/constants.dart';
 import 'package:fitnestx_flutter/helper/heper_methods.dart';
+import 'package:fitnestx_flutter/models/dashboard/ListTilesModel.dart';
 import 'package:fitnestx_flutter/models/dashboard/workout.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -35,10 +39,14 @@ class _LandingPageState extends State<LandingPage> {
     bmiCalculator();
   }
 
+  void onTapTargetList() {}
+
   final String exerciseBodyPart =
       'https://exercisedb.p.rapidapi.com/exercises/bodyPart/';
   final String exerciseEquiptments =
       'https://exercisedb.p.rapidapi.com/exercises/equipment/';
+  final String exerciseTargets =
+      'https://exercisedb.p.rapidapi.com/exercises/target/';
 
   void serviceCall(String target, String limit, String url) async {
     showLoading();
@@ -183,6 +191,19 @@ class _LandingPageState extends State<LandingPage> {
       bodyPart: "body weight",
       limit: 29,
     ),
+  ];
+
+  final targetList = [
+    ListTilesModel(text: "Abductors"),
+    ListTilesModel(text: "Calves"),
+    ListTilesModel(text: "Delts"),
+    ListTilesModel(text: "Glutes"),
+    ListTilesModel(text: "Hamstrings"),
+    ListTilesModel(text: "Lats"),
+    ListTilesModel(text: "Pectorals"),
+    ListTilesModel(text: "Quads"),
+    ListTilesModel(text: "Spine"),
+    ListTilesModel(text: "Traps"),
   ];
 
   Future<void> bmiCalculator() async {
@@ -540,6 +561,36 @@ class _LandingPageState extends State<LandingPage> {
                             ),
                           );
                         },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 25.0,
+                        left: 25.0,
+                        right: 25.0,
+                      ),
+                      child: Text(
+                        'Target Muscles',
+                        style: blackBold16px,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 1100,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                        child: GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 25,
+                            mainAxisSpacing: 25,
+                          ),
+                          primary: false,
+                          itemCount: targetList.length,
+                          itemBuilder: (context, index) {
+                            return ListTiles(text: targetList[index].text);
+                          },
+                        ),
                       ),
                     ),
                   ],
