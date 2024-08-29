@@ -50,6 +50,16 @@ TextStyle font16pxLightPink = GoogleFonts.poppins(
   color: secondaryPurple,
 );
 
+TextStyle font16pxLightPinkBoldUnderline = GoogleFonts.poppins(
+  fontWeight: FontWeight.w600,
+  fontSize: 16,
+  color: secondaryPurple,
+  decoration: TextDecoration.underline,
+  decorationThickness: 1,
+  decorationColor: secondaryPurple,
+  decorationStyle: TextDecorationStyle.solid,
+);
+
 TextStyle whiteBold = GoogleFonts.poppins(
   fontWeight: FontWeight.w800,
   fontSize: 16,

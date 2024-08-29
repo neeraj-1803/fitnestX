@@ -400,7 +400,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                           }),
                           child: Text(
                             !widget.isBack ? ' Login' : ' Register Here',
-                            style: font16pxLightPink,
+                            style: font16pxLightPinkBoldUnderline,
                           ),
                         )
                       ],
